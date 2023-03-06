@@ -50,13 +50,10 @@ Route::middleware('auth:admin')->group(function () {
         'index', 'update', 'show'
     ]);;
     
-    Route::get('admin/auction/create/{product}', [AuctionController::class, 'create'] )->name('auction.create');
-    Route::post('admin/auction/{product}', [AuctionController::class, 'store'] )->name('auction.store');
-    Route::get('admin/lelang/{lelang}/tawar', [AuctionController::class, 'tawar'] )->name('lelang.tawar');
-    Route::delete('admin/lelang/{lelang}', [AuctionController::class, 'akhiri'] )->name('lelang.akhiri');
-
-
-
+    Route::get('admin/auctions/create/{product}', [AuctionController::class, 'create'] )->name('auction.create');
+    Route::post('admin/auctions/{product}', [AuctionController::class, 'store'] )->name('auction.store');
+    Route::get('admin/auctions/{auction}/tawar', [AuctionController::class, 'tawar'] )->name('auction.tawar');
+    Route::delete('admin/auctions/{auction}', [AuctionController::class, 'akhiri'] )->name('auction.akhiri');
     
 });    
 

@@ -1,5 +1,9 @@
 @extends('admin.layouts.app')
 
+@section('title')
+    Menambahkan Produk
+@endsection
+
 @section('content')
     <div class="pagetitle">
       <h1>Tambah Produk</h1>

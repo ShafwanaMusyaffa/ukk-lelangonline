@@ -1,7 +1,8 @@
 @extends('admin.layouts.app')
 
-@section('content')
-    
+@section('title')
+  Data Produk
+@endsection
 
 {{-- <div class="card">
     <div class="card-header">
@@ -138,12 +139,11 @@
 @section('content')
   <div class="pagetitle">
     <div>
-      <h1>Data Item</h1>
+      <h1>Data Product</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Dashboard</a></li>
-          <li class="breadcrumb-item"><a href="{{ route('products.index') }}">Item</a></li>
-          <li class="breadcrumb-item active">Item</li>
+          <li class="breadcrumb-item active">Product</li>
         </ol>
       </nav>
     </div>
@@ -164,10 +164,9 @@
                   <a class="text-decoration-none card-title fw-semibold fs-5 d-block mb-1 mt-2 py-0">
                       {{ $product->name }}
                   </a>
-                  <p class="mb-1 fw-semibold fs-5 text-primary">Rp. <span class="harga">{{ $product->starting_price }}</span></p>
-                  @if($product->lelang)
-                  <p class="mb-1 fw-semibold mb-3"><i class="bi bi-hourglass-bottom"></i> 
-                        @if($product->lelang->status)
+                  {{-- <p class="mb-1 fw-semibold fs-5 text-primary">Rp. <span class="harga">{{ $product->starting_price }}</span></p> --}}
+                  @if($product->auction)
+                        @if($product->auction->status)
                             <button class="btn btn-sm btn-success">Sedang di lelang</button>
                         @else
                             <span class="btn btn-sm btn-primary">Terjual</span>
@@ -179,20 +178,25 @@
 
 
                   <div class="d-flex justify-content-end gap-2">
-                    <form action="">
-                      <button type="button" class="btn btn-danger" onclick="confirm('Yakin Menghapus Produk nama produk?')">
+
+                    <form action="{{ url('/admin/products/' . $product->id) }}" method="post">
+                      @csrf
+                      @method('delete')
+
+                      <button type="submit" class="btn btn-danger" onclick="confirm('Yakin Menghapus Produk nama produk?')">
                         Hapus
                       </button>
                     </form>
+
                     @if(!$product->auction)
                         <a class="btn btn-success btn-sm" href="{{ url('/admin/auction/create/' . $product->id) }}">
                             <i class="fas fa-shopping-cart"></i> Jual
                         </a>
-                        <a class="btn btn-info btn-sm text-white" href="{{ url('/products/' . $product->id . '/edit') }}">Edit
+                        <a class="btn btn-info btn-sm text-white" href="{{ url('/admin/products/' . $product->id . '/edit') }}">Edit
                         </a>
                     @endif
 
-                    <a href="{{ ($product->auction) ? url('/admin/auction/' . $product->id) : url('/products/' . $product->id) }}" class="btn btn-warning">
+                    <a href="{{ ($product->auction) ? route('auctions.show' , $product->id) : url('/admin/products/' . $product->id) }}" class="btn btn-warning">
                       Detail
                     </a>
                   </div>
@@ -200,7 +204,9 @@
           </div>
       </div>
       @endforeach
-
+      <div class="d-flex justify-content-center mt-4">
+          {{ $products->links() }}
+      </div>
     </div>
   </section>
 @endsection

@@ -40,16 +40,12 @@ class AuctionController extends Controller
     {
         $auction = new Auction;
 
-        if ($product->user->id != Auth::user()->id) {
-            redirect()->route('products.index');
-        }
-
         $request->validate([
             'harga_awal' => 'required|integer|min:1',
             'waktu_berakhir' => 'required|date|after:now',
         ]);
 
-        $auction->asset_id = $product->id;
+        $auction->product_id = $product->id;
         $auction->harga_awal = $request->harga_awal;
         $auction->harga_sekarang = $request->harga_awal;
         $auction->waktu_berakhir = date('Y-m-d H:i:s', strtotime(str_replace('/', '-', $request->waktu_berakhir)));
@@ -68,7 +64,7 @@ class AuctionController extends Controller
      */
     public function show(Auction $auction)
     {
-        return view('auction.show', ['auction' => $auction]);
+        return view('admin.auctions.show', ['auction' => $auction]);
     }
 
     /**

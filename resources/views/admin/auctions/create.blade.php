@@ -1,5 +1,9 @@
 @extends('admin.layouts.app')
 
+@section('title')
+    {{ $product->name }}
+@endsection
+
 @section('content')
 
 <div class="row">
@@ -40,7 +44,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <form method="post" id="form-harga" action="{{ url('/auction/' . $product->id) }}">
+                <form method="post" id="form-harga" action="{{ url('admin/auction/' . $product->id) }}">
                     @csrf
                     <div class="form-group">
                         <label for="harga_awal">Harga awal</label>

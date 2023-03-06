@@ -12,7 +12,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::orderBy('created_at', 'desc')->get();
+        $products = Product::orderBy('created_at', 'desc')->paginate(6);
 
         $products->map(function ($product){
             if ($product->auction) {
@@ -82,9 +82,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $categories = Category::all();
-
-        return view('product.edit', ['product' => $product, 'categories' => $categories]);
+        return view('admin.products.edit', compact('product'));
     }
 
     /**
@@ -99,7 +97,6 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'required',
-            'category' => 'required',
         ]);
 
         $product->name = $request->name;
@@ -107,13 +104,8 @@ class ProductController extends Controller
 
         $product->save();
 
-        // Relasi Product dan category
-        $product->categories()->detach();
-        foreach ($request->category as $category) {
-            $product->categories()->attach($category);
-        }
 
-        return redirect()->action('ProductController@show', [$product->id])->with('pesan', 'Product berhasil di ubah');
+        return redirect()->route('auctions.show', [$product->id])->with('pesan', 'Product berhasil di ubah');
     }
 
     /**
@@ -124,9 +116,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $product->categories()->detach();
         $product->delete();
 
-        return redirect()->route('product.index')->with('pesan', 'Berhasil menghapus product');
+        return redirect()->route('products.index')->with('pesan', 'Berhasil menghapus product');
     }
 }
