@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AssetController;
+use App\Http\Controllers\LelangController;
 use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\ProductController;
 
@@ -35,25 +37,37 @@ require __DIR__.'/auth.php';
 
 Route::middleware('auth:admin')->group(function () {
 
-    Route::get('admin', function () {
-        return view('admin.dashboard');
-    });
+    Route::resource('/u', 'UserController');
 
+    Route::resource('/assets', AssetController::class);
 
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    })->middleware(['auth:admin'])->name('admin.dashboard');
-    
-    
-    Route::resource('/admin/products', ProductController::class)->middleware('auth:admin');
-    Route::resource('/admin/auctions', AuctionController::class)->middleware('auth:admin')->only([
+    Route::get('lelang/create/{asset}', 'LelangController@create')->name('lelang.create');
+    Route::post('lelang/{asset}', 'LelangController@store')->name('lelang.store');
+    Route::get('/lelang/{lelang}/tawar', 'LelangController@tawar')->name('lelang.tawar');
+    Route::delete('lelang/{lelang}', 'LelangController@akhiri')->name('lelang.akhiri');
+    Route::resource('lelang', LelangController::class)->only([
         'index', 'update', 'show'
-    ]);;
+    ]);
+
+    // Route::get('admin', function () {
+    //     return view('admin.dashboard');
+    // });
+
+
+    // Route::get('/admin/dashboard', function () {
+    //     return view('admin.dashboard');
+    // })->middleware(['auth:admin'])->name('admin.dashboard');
     
-    Route::get('admin/auctions/create/{product}', [AuctionController::class, 'create'] )->name('auction.create');
-    Route::post('admin/auctions/{product}', [AuctionController::class, 'store'] )->name('auction.store');
-    Route::get('admin/auctions/{auction}/tawar', [AuctionController::class, 'tawar'] )->name('auction.tawar');
-    Route::delete('admin/auctions/{auction}', [AuctionController::class, 'akhiri'] )->name('auction.akhiri');
+    
+    // Route::resource('/admin/products', ProductController::class)->middleware('auth:admin');
+    // Route::resource('/admin/auctions', AuctionController::class)->middleware('auth:admin')->only([
+    //     'index', 'update', 'show'
+    // ]);;
+    
+    // Route::get('admin/auctions/create/{product}', [AuctionController::class, 'create'] )->name('auction.create');
+    // Route::post('admin/auctions/{product}', [AuctionController::class, 'store'] )->name('auction.store');
+    // Route::get('admin/auctions/{auction}/tawar', [AuctionController::class, 'tawar'] )->name('auction.tawar');
+    // Route::delete('admin/auctions/{auction}', [AuctionController::class, 'akhiri'] )->name('auction.akhiri');
     
 });    
 

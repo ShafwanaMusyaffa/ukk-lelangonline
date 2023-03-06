@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Admin;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
@@ -24,14 +25,8 @@ class DatabaseSeeder extends Seeder
             'password'=>bcrypt('password')
         ]);
 
-        \App\Models\User::create([
-            'name'=>'User',
-            'Email' => 'user@gmail.com',
-            'Phone' => '082112956828',
-            'password'=>bcrypt('password')
-        ]);
-
-        $this->call(CategorySeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(GenreSeeder::class);
 
     }
 }
