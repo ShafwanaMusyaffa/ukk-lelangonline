@@ -1,21 +1,21 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="index.html">Stisla</a>
+            <a href="{{ route('admin.dashboard') }}">Stisla</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="index.html">St</a>
+            <a href="{{ route('admin.dashboard') }}">St</a>
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
-            <li class="nav-item active">
+            <li class="nav-item ">
                 <a class="nav-link"
-                    href="{{ url('/') }}"><i class="fas fa-pencil-ruler">
+                    href="{{ url('/admin') }}"><i class="fas fa-pencil-ruler">
                     </i> <span>Dashboard</span>
                 </a>
             </li>
-            <li class="menu-header">Personalia</li>
-            <li class="nav-item dropdown active">
+            <li class="menu-header">Data User</li>
+            <li class="nav-item dropdown ">
                 <a href="#"
                     class="nav-link has-dropdown"><i class="fas fa-user-secret"></i> <span>Admin</span></a>
                 <ul class="dropdown-menu">
@@ -24,7 +24,7 @@
                             Tambah Admin
                         </a>
                     </li>
-                    <li class="active">
+                    <li class="">
                         <a class="nav-link" href="{{ url('bootstrap-alert') }}">
                             Lihat Admin
                         </a>
@@ -104,17 +104,15 @@
         </ul>
 
         <div class="hide-sidebar-mini mt-4 mb-2 p-3">
-            {{-- If Not Admin --}}
-            {{-- <a href="/"
-                class="btn btn-outline-primary btn-lg btn-block btn-icon-split">
-                <i class="fas fa-rocket"></i> Need Help?
-            </a> --}}
 
             {{-- Button Log Out --}}
-            <a href="/"
-                class="btn btn-primary btn-lg btn-block btn-icon-split">
-                <i class="fas fa-sign-out"></i> Log Out
-            </a>
+            <form action="{{ route('admin.logout') }}" method="post">
+            @csrf
+                <button type="submit"
+                    class="btn btn-primary btn-lg btn-block btn-icon-split">
+                    <i class="fas fa-sign-out"></i> Log Out
+                </button>
+            </form>
         </div>
     </aside>
 </div>

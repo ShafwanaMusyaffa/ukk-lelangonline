@@ -27,9 +27,11 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::create([
             'name'=>'User',
             'Email' => 'user@gmail.com',
+            'Phone' => '082112956828',
             'password'=>bcrypt('password')
         ]);
 
+        $this->call(CategorySeeder::class);
 
     }
 }
